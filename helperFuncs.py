@@ -4,13 +4,27 @@ import re
 
 def createTable(table):
     '''Creates a table dictionary'''
-    # this is more verbose then it needs to be
     click.echo("the table needs a scheme")
-    scheme = click.prompt(f"{table}")
+    result = dict()
+    scheme = click.prompt(f"{table}/Scheme", prompt_suffix="> ")
 
-    props = [x.strip('{}') for x in re.findall(r"\{\w+\}", scheme)]
+    props = list(set([x.strip('{}') for x in re.findall(r"\{\w+\}", scheme)]))
 
     for prop in props:
-        next
+        result[f"{prop}"] = list()
+        
+        while True:
+            current = click.prompt(f"{table}/{prop}", prompt_suffix="> ", default="", show_default=False)
+            newprops = [x.strip('{}') for x in re.findall(r"\{\w+\}", current)]
+            
+            if len(newprops) > 0:
+                for newprop in newprops:
+                    if newprop not in props:
+                        props.append(newprop)
 
-    return {"Scheme": "nothing here yet"}
+            if current == "":
+                break
+
+            result[f"{prop}"].append(current)
+
+    return result

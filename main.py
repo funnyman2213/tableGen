@@ -25,6 +25,7 @@ def gen(ctx, tables, folder):
         except FileNotFoundError:
             if click.confirm("[Error] File not found!\nwould you like to Create this table now?", default=True ):
                 ctx.invoke(create, table=table, folder=folder)
+                ctx.invoke(gen, tables=table, folder=folder)
         except Exception as e:
             click.echo(f"error {e}")
     
@@ -35,11 +36,10 @@ def gen(ctx, tables, folder):
 @click.argument("table", type=str)
 @click.option("-f", "--folder", "folder", default="tables", required=False)
 def create(table, folder):
+    tableDict = createTable(table)
     with open(f"{folder}/{table}.json",'w') as f:
-        tableDict = createTable(table)
         print(json.dumps(tableDict, indent=4),file=f)
     click.echo(f"table {table}, created in {folder}")
-    # TODO work a simple prompt based startup input
 
 
 # TODO add ability to edit tables
