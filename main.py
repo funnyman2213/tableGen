@@ -1,7 +1,7 @@
 import click
 import json
 from tableParser import TableParser
-from helperFuncs import *
+from helperFuncs import createTable
 
 
 @click.group()
