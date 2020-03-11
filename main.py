@@ -25,7 +25,6 @@ def gen(ctx, tables, folder):
         except FileNotFoundError:
             if click.confirm("[Error] File not found!\nwould you like to Create this table now?", default=True ):
                 ctx.invoke(create, table=table, folder=folder)
-                ctx.invoke(gen, tables=table, folder=folder)
         except Exception as e:
             click.echo(f"error {e}")
     

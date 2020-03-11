@@ -7,6 +7,7 @@ def createTable(table):
     click.echo("the table needs a scheme")
     result = dict()
     scheme = click.prompt(f"{table}/Scheme", prompt_suffix="> ")
+    result["scheme"]=scheme
 
     props = list(set([x.strip('{}') for x in re.findall(r"\{\w+\}", scheme)]))
 
