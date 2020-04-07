@@ -11,7 +11,6 @@ class TableParser:
 
     def pick(self) -> str:
         '''picks data specified by the table and returns it'''
-        # FIXME pick based on request
         picked = {}
         for key, val in self.options.items():
             picked[key] = choice(val)

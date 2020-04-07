@@ -9,9 +9,15 @@ def createTable(table):
     scheme = click.prompt(f"{table}/Scheme", prompt_suffix="> ")
     result["scheme"]=scheme
 
-    props = list(set([x.strip('{}') for x in re.findall(r"\{\w+\}", scheme)]))
+    props = [x.strip('{}') for x in re.findall(r"\{\w+\}", scheme)]
 
-    for prop in props:
+    single_props = list(set(props))
+
+    occurances = dict(zip(single_props, [props.count(prop) for prop in single_props]))
+
+    print(occurances)
+
+    for prop in single_props:
         result[f"{prop}"] = list()
         
         while True:
@@ -20,8 +26,8 @@ def createTable(table):
             
             if len(newprops) > 0:
                 for newprop in newprops:
-                    if newprop not in props:
-                        props.append(newprop)
+                    if newprop not in single_props:
+                        single_props.append(newprop)
 
             if current == "":
                 break
