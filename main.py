@@ -1,4 +1,5 @@
 import click
+from click.testing import CliRunner
 import json
 from tableParser import TableParser
 from helperFuncs import createTable
@@ -20,13 +21,13 @@ def gen(ctx, tables, folder):
     for table in tables:
         try:
             with open(f"{folder}/{table}.json", 'r') as file:
-                parsed = TableParser(file)
-                generated.append(f"{table}: {parsed.pick()}")
+                parsed = TableParser.parse(file)
+                generated.append(f"{table}: {parsed.generate()}")
         except FileNotFoundError:
             if click.confirm("[Error] File not found!\nwould you like to Create this table now?", default=True ):
                 ctx.invoke(create, table=table, folder=folder)
         except Exception as e:
-            click.echo(f"error {e}")
+            click.echo(f"Error: {e} ")
     
     [click.echo(f"{x}") for x in generated] # FIXME this is a horrible work around but I wanted 1 line
 
@@ -45,3 +46,5 @@ def create(table, folder):
 @main.command()
 def edit():
     pass
+
+

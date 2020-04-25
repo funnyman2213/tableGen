@@ -8,6 +8,7 @@ def createTable(table):
     result = dict()
     scheme = click.prompt(f"{table}/Scheme", prompt_suffix="> ")
     result["scheme"]=scheme
+    result["options"]=dict()
 
     props = [x.strip('{}') for x in re.findall(r"\{\w+\}", scheme)]
 
@@ -18,7 +19,7 @@ def createTable(table):
     print(occurances)
 
     for prop in single_props:
-        result[f"{prop}"] = list()
+        result["options"][f"{prop}"] = list()
         
         while True:
             current = click.prompt(f"{table}/{prop}", prompt_suffix="> ", default="", show_default=False)

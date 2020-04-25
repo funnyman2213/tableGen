@@ -136,6 +136,10 @@ dmypy.json
 
 # Test folders
 tables/
+tests/
 
 # Idea folders
 todo/
+
+# VScode
+.vscode/

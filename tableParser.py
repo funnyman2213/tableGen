@@ -1,29 +1,19 @@
 import json
 from random import choice
+from table import Table
+from option import Option
 
 class TableParser:
 
-    def __init__(self, file):
-        self.unparsed = json.load(file)
-        self.scheme = self.unparsed.pop("scheme")
-        self.options = self.unparsed
+    @staticmethod
+    def parse(file):
+        unparsed = json.load(file)
+        scheme = unparsed.pop("scheme")
+        options = unparsed.pop("options")
+        meta = unparsed.pop("meta")
 
-    # def pick(self) -> str:
-    #     '''picks data specified by the table and returns it'''
-    #     picked = {}
-    #     for key, val in self.options.items():
-    #         picked[key] = choice(val)
-    #     try:
-    #         while True:
-    #             self.scheme = self.scheme.format(**picked)
-    #             if not "{" in self.scheme or not "}" in self.scheme:
-    #                 break
-    #     except ValueError as e:
-    #         return(f"ValueError in scheme: {e}")
-
-    #     return self.scheme
-
-    def parse(self, file):
-        #return Table
-        pass
+        for option, values in options:
+            options.update({option: Option(values)})
+        
+        return Table(scheme, options, meta)
         
