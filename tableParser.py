@@ -12,7 +12,7 @@ class TableParser:
         options = unparsed.pop("options")
         meta = unparsed.pop("meta")
 
-        for option, values in options:
+        for option, values in options.items():
             options.update({option: Option(values)})
         
         return Table(scheme, options, meta)

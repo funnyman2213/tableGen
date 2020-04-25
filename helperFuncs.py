@@ -10,7 +10,7 @@ def createTable(table):
     result["scheme"]=scheme
     result["options"]=dict()
 
-    props = [x.strip('{}') for x in re.findall(r"\{\w+\}", scheme)]
+    props = (x[1] for x in re.findall(r"(\{)(\w+)(\})", scheme))
 
     single_props = list(set(props))
 
