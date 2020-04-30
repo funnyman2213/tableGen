@@ -9,6 +9,7 @@ def createTable(table):
     scheme = click.prompt(f"{table}/Scheme", prompt_suffix="> ")
     result["scheme"]=scheme
     result["options"]=dict()
+    result["meta"]=dict()
 
     props = (x[1] for x in re.findall(r"(\{)(\w+)(\})", scheme))
 
@@ -23,7 +24,7 @@ def createTable(table):
         
         while True:
             current = click.prompt(f"{table}/{prop}", prompt_suffix="> ", default="", show_default=False)
-            newprops = [x.strip('{}') for x in re.findall(r"\{\w+\}", current)]
+            newprops = [x[1] for x in re.findall(r"(\{)(\w+)(\})", current)]
             
             if len(newprops) > 0:
                 for newprop in newprops:
