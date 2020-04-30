@@ -1,4 +1,5 @@
 import click
+import os
 from click.testing import CliRunner
 import json
 from tableParser import TableParser
@@ -37,6 +38,11 @@ def gen(ctx, tables, folder):
 @click.option("-f", "--folder", "folder", default="tables", required=False)
 def create(table, folder):
     tableDict = createTable(table)
+    if not os.path.exists(folder):
+        try:
+            os.mkdir(folder)
+        except Exception as e:
+            print(f"Error creating folder {e}")
     with open(f"{folder}/{table}.json",'w') as f:
         print(json.dumps(tableDict, indent=4),file=f)
     click.echo(f"table {table}, created in {folder}")
