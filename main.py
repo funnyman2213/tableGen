@@ -3,7 +3,7 @@ import os
 from click.testing import CliRunner
 import json
 from tableParser import TableParser
-from helperFuncs import createTable
+from utils import createTable
 
 
 @click.group()

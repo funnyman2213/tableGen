@@ -17,7 +17,7 @@ tableGen has three modes (**NOTE:** all modes are under development and are subj
 
 `gen` `create` `edit`
 
-#### Gen
+### Gen
 
 to use TableGen's Generator, run
 
