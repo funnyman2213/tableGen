@@ -1,6 +1,7 @@
 import json
-from option import Option
 import re
+import click
+import random
 
 
 class Table:
@@ -30,4 +31,62 @@ class Table:
 
         return result
 
-    
+    @staticmethod
+    def parse(file):
+        unparsed = json.load(file)
+        scheme = unparsed.pop("scheme")
+        options = unparsed.pop("options")
+        meta = unparsed.pop("meta")
+
+        for option, values in options.items():
+            options.update({option: Option(values)})
+        
+        return Table(scheme, options, meta)
+
+class Option:
+
+    def __init__(self, optionlist: list):
+        if type(optionlist) == list:
+            self.optionlist = optionlist
+        else:
+            raise TypeError("Option list is not list")
+
+    def pick(self):
+        return random.choice(self.optionlist)
+
+
+def createTable(table):
+    '''Creates a table dictionary'''
+    click.echo("the table needs a scheme")
+    result = dict()
+    scheme = click.prompt(f"{table}/Scheme", prompt_suffix="> ")
+    result["scheme"]=scheme
+    result["options"]=dict()
+    result["meta"]=dict()
+
+    props = (x[1] for x in re.findall(r"(\{)(\w+)(\})", scheme))
+
+    single_props = list(set(props))
+
+    occurances = dict(zip(single_props, [props.count(prop) for prop in single_props]))
+
+    print(occurances)
+
+    for prop in single_props:
+        result["options"][f"{prop}"] = list()
+        
+        while True:
+            current = click.prompt(f"{table}/{prop}", prompt_suffix="> ", default="", show_default=False)
+            newprops = [x[1] for x in re.findall(r"(\{)(\w+)(\})", current)]
+            
+            if len(newprops) > 0:
+                for newprop in newprops:
+                    if newprop not in single_props:
+                        single_props.append(newprop)
+
+            if current == "":
+                break
+
+            result[f"{prop}"].append(current)
+
+    return result

@@ -2,8 +2,8 @@ import click
 import os
 from click.testing import CliRunner
 import json
-from tableParser import TableParser
-from utils import createTable
+from table import createTable, Table
+
 
 
 @click.group()
@@ -22,7 +22,7 @@ def gen(ctx, tables, folder):
     for table in tables:
         try:
             with open(f"{folder}/{table}.json", 'r') as file:
-                parsed = TableParser.parse(file)
+                parsed = Table.parse(file)
                 generated.append(f"{table}: {parsed.generate()}")
         except FileNotFoundError:
             if click.confirm("[Error] File not found!\nwould you like to Create this table now?", default=True ):
