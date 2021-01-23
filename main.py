@@ -1,9 +1,7 @@
 import click
 import os
-from click.testing import CliRunner
 import json
 from table import createTable, Table
-
 
 
 @click.group()
@@ -30,7 +28,8 @@ def gen(ctx, tables, folder):
         except Exception as e:
             click.echo(f"Error: {e} ")
     
-    [click.echo(f"{x}") for x in generated] # FIXME this is a horrible work around but I wanted 1 line
+    for x in generated:
+        click.echo(f"{x}")
 
 
 @main.command()
