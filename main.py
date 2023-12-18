@@ -23,7 +23,7 @@ def gen(ctx, tables, folder):
                 parsed = Table.parse(file)
                 generated.append(f"{table}: {parsed.generate()}")
         except FileNotFoundError:
-            if click.confirm("[Error] File not found!\nwould you like to Create this table now?", default=True ):
+            if click.confirm("[Error] File not found!\nWould you like to Create this table now?", default=True ):
                 ctx.invoke(create, table=table, folder=folder)
         except Exception as e:
             click.echo(f"Error: {e} ")
@@ -49,7 +49,18 @@ def create(table, folder):
 
 # TODO add ability to edit tables
 @main.command()
-def edit():
-    pass
+@click.argument("table", type=str)
+@click.option("-f", "--folder", "folder", default="tables", required=False)
+@click.pass_context
+def edit(ctx, table, folder):
+    try:
+        with open(f"{folder}/{table}.json", 'r') as file:
+            parsed = Table.parse(file)
+            parsed.edit()
+    except FileNotFoundError:
+        if click.confirm("[Error] File not found!\nWould you like to Create this table now?", default=True ):
+            ctx.invoke(create, table=table, folder=folder)
+    except Exception as e:
+        click.echo(f"Error: {e} ")
 
 

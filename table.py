@@ -43,6 +43,9 @@ class Table:
         
         return Table(scheme, options, meta)
 
+    def edit(self):
+        pass
+
 class Option:
 
     def __init__(self, optionlist: list):
